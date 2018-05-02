@@ -25,24 +25,24 @@ def get_url_content(url, ua):
 def get_news():
     # info = {}
 
-    url = "http://edu.bjhd.gov.cn/gongkai/zxgk/"
+    url = "http://www.bjhd.gov.cn/xinxigongkai/zcfg/zfwj/"
     ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
 
     content = get_url_content(url, ua)
 
     soup = BeautifulSoup(markup=content, features="lxml")
-    ul = soup.find("ul", class_="text_list")
+    ul = soup.find("ul", class_="textList")
     lis = ul.find_all("li")
     for li in lis:
         a = li.find("a")
         span = li.find("span")
 
-        print("{} {} {}".format(a["title"], a["href"], span.text))
+        print("{} {} {}".format(a.text, a["href"], span.text))
 
-        url = urllib.parse.urljoin(
-            "http://edu.bjhd.gov.cn/gongkai/zxgk/", a["href"])
-        if re.search("非本市户籍适龄儿童", a["title"]):
+        url = urllib.parse.urljoin(url, a["href"])
+        if re.search("2018年非本市户籍适龄儿童", a.text):
+        # if re.search("2018年义务教育阶段", a.text):
             webbrowser.open(url)
 
 
